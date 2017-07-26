@@ -531,6 +531,7 @@ static ulong rockchip_mmc_set_clk(struct rk3288_cru *cru, uint gclk_rate,
 	int mux;
 
 	debug("%s: gclk_rate=%u\n", __func__, gclk_rate);
+	/* mmc clock defaulg div 2 internal, need provide double in cru */
 	src_clk_div = DIV_ROUND_UP(gclk_rate / 2, freq);
 
 	if (src_clk_div > 0x3f) {
