@@ -30,9 +30,6 @@ struct pll_div {
 #define GPLL_HZ		(576 * 1000 * 1000)
 #define CPLL_HZ		(400 * 1000 * 1000)
 
-#define RATE_TO_DIV(input_rate, output_rate) \
-		((input_rate) / (output_rate) - 1);
-
 #define DIV_TO_RATE(input_rate, div)    ((input_rate) / ((div) + 1))
 
 #define PLL_DIVISORS(hz, _nr, _no) { \
@@ -171,7 +168,7 @@ static ulong rk3368_mmc_set_clk(struct rk3368_cru *cru,
 	u32 con_id;
 	u32 gpll_rate = rkclk_pll_get_rate(cru, GPLL);
 
-	div = RATE_TO_DIV(gpll_rate, rate << 1);
+	div = DIV_ROUND_UP(gpll_rate, rate << 1) - 1;
 
 	switch (clk_id) {
 	case SCLK_SDMMC:
@@ -188,7 +185,8 @@ static ulong rk3368_mmc_set_clk(struct rk3368_cru *cru,
 	}
 
 	if (div > 0x3f) {
-		div = RATE_TO_DIV(OSC_HZ, rate);
+		div = DIV_ROUND_UP(OSC_HZ, rate) - 1;
+		assert(div < 0x40);
 		rk_clrsetreg(&cru->clksel_con[con_id],
 			     MMC_PLL_SEL_MASK | MMC_CLK_DIV_MASK,
 			     (MMC_PLL_SEL_24M << MMC_PLL_SEL_SHIFT) |
