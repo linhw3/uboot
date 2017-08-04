@@ -1062,6 +1062,8 @@ config ARCH_ROCKCHIP
 	select DM_PWM
 	select DM_REGULATOR
 	imply FAT_WRITE
+	imply USB_FUNCTION_ROCKUSB
+	imply CMD_ROCKUSB
 
 config TARGET_THUNDERX_88XX
 	bool "Support ThunderX 88xx"
