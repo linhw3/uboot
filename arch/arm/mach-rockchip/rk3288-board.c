@@ -45,6 +45,10 @@ static void setup_boot_mode(void)
 		setenv("preboot", "setenv preboot; if mmc dev 0;"
 		       "then ums mmc 0; else ums mmc 1;fi");
 		break;
+	case BOOT_LOADER:
+		printf("enter Rockusb!\n");
+		setenv("preboot", "setenv preboot; rockusb 0 mmc 0");
+		break;
 	}
 }
 
