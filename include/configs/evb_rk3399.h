@@ -9,6 +9,7 @@
 
 #include <configs/rk3399_common.h>
 
+#define CONFIG_MMC_SDHCI_SDMA
 #define CONFIG_ENV_IS_IN_MMC
 #define CONFIG_SYS_MMC_ENV_DEV 0
 /*
