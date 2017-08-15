@@ -430,7 +430,7 @@ static void rx_handler_dl_image(struct usb_ep *ep, struct usb_request *req)
 	/* Check if transfer is done */
 	if (f_rkusb->download_bytes >= f_rkusb->download_size) {
 		int blks = 0, blkcnt = f_rkusb->download_size/512;
-		printf("download %d bytes finished, start writing to lba %x\n",
+		debug("download %d bytes finished, start writing to lba %x\n",
 		       f_rkusb->download_bytes, f_rkusb->download_lba);
 		blks = blk_dwrite(f_rkusb->download_desc,
 				  f_rkusb->download_lba, blkcnt,
@@ -447,7 +447,7 @@ static void rx_handler_dl_image(struct usb_ep *ep, struct usb_request *req)
 		req->complete = rx_handler_command;
 		req->length = EP_BUFFER_SIZE;
 		f_rkusb->download_size = 0;
-		printf("done\n");
+		debug("done\n");
 		rockusb_tx_write_csw(f_rkusb->download_tag, 0, CSW_GOOD,
 				     USB_BULK_CS_WRAP_LEN);
 	} else {
